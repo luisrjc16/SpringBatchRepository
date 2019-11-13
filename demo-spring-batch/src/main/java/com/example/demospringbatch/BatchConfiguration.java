@@ -1,6 +1,6 @@
 package com.example.demospringbatch;
 
-import javax.sql.DataSource;
+import javax.sql.DataSource; 
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -33,6 +33,9 @@ public class BatchConfiguration {
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 	
+	@Autowired
+	public DataSource dataSource;
+	
 	@Bean
 	public FlatFileItemReader<Persona> reader(){
 		return new FlatFileItemReaderBuilder<Persona>()
@@ -52,7 +55,7 @@ public class BatchConfiguration {
 	}
 	
 	@Bean
-	public JdbcBatchItemWriter<Persona> writer(DataSource dataSource){
+	public JdbcBatchItemWriter<Persona> writer(){
 		return new JdbcBatchItemWriterBuilder<Persona>()
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
 				.sql("INSERT INTO persona (primer_nombre, segundo_nombre, telefono) VALUES (:primerNombre, :segundoNombre, :telefono)")
